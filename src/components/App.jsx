@@ -29,27 +29,29 @@ export class App extends Component {
   };
 
   addContact = contact => {
-    const { contacts } = this.state;
-    const doubleContact = contacts.some(
-      someContact =>
-        someContact.name.toLowerCase() === contact.name.toLowerCase()
-    );
-
-    if (doubleContact) {
-      alert(
-        `Контакт з іменем ${contact.name} вже присутній у телефонній книзі!`
+    this.setState(prevState => {
+      const { contacts } = prevState;
+      const doubleContact = contacts.some(
+        someContact =>
+          someContact.name.toLowerCase() === contact.name.toLowerCase()
       );
-      return;
-    }
 
-    const newContact = {
-      id: nanoid(),
-      name: contact.name,
-      number: contact.number,
-    };
+      if (doubleContact) {
+        alert(
+          `Контакт з іменем ${contact.name} вже присутній у телефонній книзі!`
+        );
+        return;
+      }
 
-    this.setState({
-      contacts: [...contacts, newContact],
+      const newContact = {
+        id: nanoid(),
+        name: contact.name,
+        number: contact.number,
+      };
+
+      return {
+        contacts: [...contacts, newContact],
+      };
     });
   };
 
